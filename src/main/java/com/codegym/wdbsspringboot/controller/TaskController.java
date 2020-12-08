@@ -1,8 +1,10 @@
 package com.codegym.wdbsspringboot.controller;
 
+import com.codegym.wdbsspringboot.model.AppUser;
 import com.codegym.wdbsspringboot.model.Task;
 import com.codegym.wdbsspringboot.model.TaskForm;
 import com.codegym.wdbsspringboot.service.taskservice.ITaskService;
+import com.codegym.wdbsspringboot.service.userservice.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -21,8 +23,18 @@ import java.util.List;
 public class TaskController {
     @Autowired
     private ITaskService taskService;
+
+    @Autowired
+    private IAppUserService appUserService;
+
     @Autowired
     Environment env;
+
+
+    @ModelAttribute("user")
+    public AppUser user() {
+        return appUserService.getCurrentUser();
+    }
 
     @GetMapping()
     public ModelAndView home(){
@@ -52,6 +64,7 @@ public class TaskController {
         }
         task1.setAvatar(fileName);
         taskService.save(task1);
+        System.out.println(user().getUsername());
         return new RedirectView("");
     }
 }

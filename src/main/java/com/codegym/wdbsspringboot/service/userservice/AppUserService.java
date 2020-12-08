@@ -4,6 +4,7 @@ import com.codegym.wdbsspringboot.model.AppUser;
 import com.codegym.wdbsspringboot.repository.IAppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,5 +38,19 @@ public class AppUserService implements IAppUserService, UserDetailsService {
         );
 
         return userDetails;
+    }
+
+    public AppUser getCurrentUser() {
+        AppUser user;
+        String userName;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            userName = ((UserDetails) principal).getUsername();
+        } else {
+            userName = principal.toString();
+        }
+        user = this.getUserByUsername(userName);
+        return user;
     }
 }

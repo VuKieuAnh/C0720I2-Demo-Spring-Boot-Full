@@ -20,6 +20,8 @@
     <tbody>
     <tr th:each="task: ${tasks}">
         <td th:text="${task.getName()}"></td>
+        <td><img th:src="${'../'+task.getAvatar()}" width="100
+"></td>
         <td th:text="${task.getDescription()}"></td>
     </tr>
     </tbody>
