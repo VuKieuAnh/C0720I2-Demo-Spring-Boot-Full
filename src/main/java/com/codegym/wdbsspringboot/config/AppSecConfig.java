@@ -27,12 +27,12 @@ public class AppSecConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", "/actuator/**").permitAll()
+                .antMatchers("/", "/actuator/**", "/**").permitAll()
 //                .antMatchers("/admin/**").access("hasRole('ADMIN')")
                 .antMatchers("/tasks/**").access("hasRole('USER')")
                 .and()
-                .authorizeRequests().antMatchers("/**").hasRole("USER")
-                .and()
+//                .authorizeRequests().antMatchers("/**").hasRole("USER")
+//                .and()
                 .formLogin()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
